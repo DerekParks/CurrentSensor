@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <title>Current Sensor</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="local.css">
+
+    <script src="alpine.min.js"></script>
+    <script src="currentsensor.js"></script>
+  </head>
+  <body class="text-center text-white bg-dark h-100 d-flex flex-column" >        
+    <div class="p-3 mx-auto upper">
+      <div><a href="/">Home</a></div>
+      <div><a href="/mqtt.html">MQTT</a></div>
+      <div><a href="/webserial">Web Serial</a></div>
+    </div>
+    <div class="d-flex h-100 p-3 mx-auto flex-column" x-data="{'status':'','SSID':'','APs': [],'password':''}" x-on:items-load.window="APs = $event.detail.items"
+              x-init="fetch('/status')
+                        .then(response => response.json())
+                        .then(data => {
+                            status = data.status;
+                            SSID = data.SSID;
+                        });">
+                      <label for="status">Status:</label> <span x-text="status"></span>
+                      <label for="SSID">SSID:</label> <span x-text="SSID"></span>
+        <button type="button" @click="scan();" class="btn btn-primary mr-1" >
+            Scan
+        </button>
+        <table>
+          <thead>
+            <tr>
+              <th>SSID</th>
+              <th>RSSI</th>
+              <th>Password</th>
+              <th>Connect</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="ap in APs" :key="ap">
+              <tr>
+                <th x-text="ap.ssid"></th>
+                <th x-text="ap.rssi"></th>
+                <th><input type="text" x-show="ap.enc!=7" x-init="" x-model="password"/></th>
+                <th>
+                  <button type="button" @click=" connect(ap.ssid, ap.enc!=7 ? password: '' );" class="btn btn-primary mr-1">
+                    &#x25b6;
+                  </button>
+                </th>
+              </tr>
+            </template>
+          </tbody>
+        </table>
+    </div>
+  </body>
+</html>

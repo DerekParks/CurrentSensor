@@ -1,0 +1,12 @@
+# export files for BOM
+*.csv
+*.tsv
+*.xml
+# backup files
+*.bak
+*.sch-bak
+*.bck
+data/wifi.json
+data/mqtt.json
+board/CurrentSensorV1/V1/
+board/CurrentSensorV1/V2/

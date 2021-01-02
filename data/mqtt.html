@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <title>Current Sensor - MQTT config</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="local.css">
+    <script src="alpine.min.js"></script>
+    <script src="currentsensor.js"></script>
+  </head>
+  <body class="text-center text-white bg-dark h-100 d-flex flex-column" >
+    <div class="p-3 mx-auto upper">
+        <div><a href="/">Home</a></div>
+        <div><a href="/webserial">Web Serial</a></div>
+        <div><a href="/wifi.html">Wifi</a></div>
+    </div>
+
+    <div class="p-3 mx-auto flex-row">
+        <h1>MQTT</h1>
+    </div>
+    <div class=" p-3 mx-auto flex-column"
+        x-data="{ 'mqtt_server':'', 'mqtt_port':0, 'mqtt_user':'', 'client_id':'', 'mqtt_password':'', 'show_change_mqtt': false, 'mqttConn': false, 'mqttState':'Not found'}" 
+        x-init="fetch('/mqtt')
+                      .then(response => response.json())
+                      .then(data => {
+                        mqtt_server = data.mqtt_server;
+                        mqtt_port = data.mqtt_port;
+                        mqtt_user = data.mqtt_user;
+                        client_id = data.client_id;
+                        mqtt_password = '';
+                      });
+                fetch('/status')
+                      .then(response => response.json())
+                      .then(data => {
+                        mqttConn = data.mqttConn;
+                        mqttState = data.mqttState;
+                      });
+                      ">
+        <table>
+            <tbody>
+            <tr>
+                <td><label for="connected">Connected?:</label></td>
+                <td> <span x-text="mqttConn"></span> </td>
+            </tr>
+            <tr>
+                <td><label for="status">Status:</label></td>
+                <td> <span x-text="mqttState"></span> </td>
+            </tr>
+            <tr>
+                <td><label for="mqtt_server">MQTT Server:</label></td>
+                <td> <span x-show="!show_change_mqtt" x-text="mqtt_server"></span> </td>
+                <td><input type="text" x-show="show_change_mqtt" id="mqtt_server_input" x-model="mqtt_server" /></td>
+            </tr>
+            <tr>
+                <td><label for="mqtt_port">MQTT Port:</label></td>
+                <td> <span x-show="!show_change_mqtt" x-text="mqtt_port"></span></td>
+                <td><input type="number" x-show="show_change_mqtt" id="mqtt_port_input" x-model="mqtt_port" /></td>
+            </tr>
+            <tr>
+                <td><label for="client_id">Client ID:</label></td>
+                <td> <span x-show="!show_change_mqtt" x-text="client_id"></span> </td>
+                <td><input type="text" x-show="show_change_mqtt" id="client_id_input" x-model="client_id" /></td>
+            </tr>
+            <tr>
+                <td><label for="mqtt_user">MQTT User:</label></td>
+                <td> <span x-show="!show_change_mqtt" x-text="mqtt_user"></span> </td>
+                <td><input type="text" x-show="show_change_mqtt" id="mqtt_user_input" x-model="mqtt_user" /></td>
+            </tr>
+            <tr>
+                <td><label for="mqtt_password">MQTT Password:</label></td>
+                <td><span x-show="!show_change_mqtt">***</span> </td>
+                <td> <input type="text" x-show="show_change_mqtt" id="mqtt_password_input" x-model="mqtt_password"/></td>
+            </tr>
+            <tr>
+                <td colspan="3"> 
+                    <button type="button" x-show="show_change_mqtt" @click="show_change_mqtt=false; save_mqtt(mqtt_server,mqtt_port,client_id,mqtt_user,mqtt_password);" class="btn btn-primary mr-1" :disabled="(!mqtt_server || !mqtt_port || !client_id || !mqtt_user || !mqtt_password)">
+                        Save
+                    </button>
+
+                    <button type="button" x-show="!show_change_mqtt" @click="show_change_mqtt=true;" class="btn btn-primary mr-1">
+                        &#9998;
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+        </table>
+
+    </div>
+  </body>
+</html>

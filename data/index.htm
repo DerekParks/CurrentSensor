@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" class="h-100">
+  <head>
+    <meta charset="utf-8">
+    <title>Current Sensor</title>
+    <link rel="stylesheet" type="text/css" href="/bootstrap.min.css">
+    <link rel="stylesheet" href="local.css">
+
+    <script src="alpine.min.js"></script>
+    <script src="currentsensor.js"></script>
+  </head>
+  <body class="text-center text-white bg-dark h-100 d-flex flex-column" 
+      x-data="create_model();"
+      x-init="fetch('/values')
+                .then(response => response.json())
+                .then(data => {
+                    ApparentPower = data.ApparentPower;
+                    WattsSum = data.WattsSum;
+                    MillsSum = data.MillsSum;
+                    kwh = data.kwh;
+                    voltage = data.voltage;
+                    update_s = data.update_s;
+      });">        
+    <div class="p-3 mx-auto upper">
+      <div><a href="/mqtt.html">MQTT</a></div>
+      <div><a href="/webserial">Web Serial</a></div>
+      <div><a href="/wifi.html">Wifi</a></div>
+    </div>
+    <div class=" d-flex h-100 p-3 mx-auto flex-column">
+      <h1>
+        <label for="kwh">KWH:</label><p x-text="kwh"></p>
+      </h1>
+      <table class="d-flex flex-row">
+        <tr>
+          <td><label for="ApparentPower">ApparentPower:</label></td>
+          <td><p x-text="ApparentPower"></p></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><label for="WattsSum">WattsSum:</label></td>
+          <td><p x-text="WattsSum"></p></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><label for="MillsSum">MillsSum:</label></td>
+          <td><p x-text="MillsSum"></p></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><label for="voltage">Voltage:&nbsp;&nbsp;</label></td>
+          <td><p x-text="voltage">&nbsp;&nbsp;</p></td>
+          <td>        
+            <button type="button" x-show="!show_voltage" @click="show_voltage=true; voltage_new=voltage;" class="btn btn-primary mr-1">
+              &#9998;
+            </button>
+  
+            <input type="number" x-show="show_voltage" id="voltage_input" x-model="voltage_new" x-init="voltage" />
+            <button type="button" x-show="show_voltage" @click="show_voltage=false; voltage=voltage_new; save_voltage(voltage_new);" class="btn btn-primary mr-1" :disabled="(!voltage_new || parseInt(voltage_new) == NaN || parseInt(voltage_new)==parseInt(voltage))">
+              Save
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="update_s">Update Seconds:</label>
+          </td>
+          <td>
+            <p x-text="update_s"></p>
+          </td>
+          <td>
+            <button type="button" x-show="!show_update_s" @click="show_update_s=true; update_s_new=update_s;" class="btn btn-primary mr-1">
+              &#9998;
+            </button>
+            <input type="number" x-show="show_update_s" id="update_input" x-model="update_s_new" x-init="update_s" />
+            <button type="button" x-show="show_update_s" @click="show_update_s=false; update_s=update_s_new; save_update_s(update_s_new);" class="btn btn-primary mr-1" :disabled="(!update_s_new || parseInt(update_s_new) == NaN || parseInt(update_s_new)==parseInt(update_s))">
+              Save
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
