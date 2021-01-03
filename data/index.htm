@@ -20,6 +20,7 @@
                     kwh = data.kwh;
                     voltage = data.voltage;
                     update_s = data.update_s;
+                    cal_factor = data.cal_factor;
       });">        
     <div class="p-3 mx-auto upper">
       <div><a href="/mqtt.html">MQTT</a></div>
@@ -56,6 +57,20 @@
   
             <input type="number" x-show="show_voltage" id="voltage_input" x-model="voltage_new" x-init="voltage" />
             <button type="button" x-show="show_voltage" @click="show_voltage=false; voltage=voltage_new; save_voltage(voltage_new);" class="btn btn-primary mr-1" :disabled="(!voltage_new || parseInt(voltage_new) == NaN || parseInt(voltage_new)==parseInt(voltage))">
+              Save
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="cal_factor">Cal Factor:&nbsp;&nbsp;</label></td>
+          <td><p x-text="cal_factor">&nbsp;&nbsp;</p></td>
+          <td>        
+            <button type="button" x-show="!show_cal_factor" @click="show_cal_factor=true; cal_factor_new=cal_factor;" class="btn btn-primary mr-1">
+              &#9998;
+            </button>
+  
+            <input type="number" x-show="show_cal_factor" id="cal_factor_input" x-model="cal_factor_new" x-init="cal_factor" />
+            <button type="button" x-show="show_cal_factor" @click="show_cal_factor=false; cal_factor=cal_factor_new; save_cal_factor(cal_factor_new);" class="btn btn-primary mr-1" :disabled="(!cal_factor_new || parseFloat(cal_factor_new) == NaN || parseFloat(cal_factor_new)==parseFloat(cal_factor))">
               Save
             </button>
           </td>

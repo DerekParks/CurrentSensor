@@ -29,6 +29,7 @@
 
 #define VOLTAGE_ADDR 0
 #define RESET_ADDR sizeof(float)
+#define CAL_ADDR (RESET_ADDR + sizeof(unsigned long))
 #define WIFI_PATH "/wifi.json"
 #define MQTT_PATH "/mqtt.json"
 #define CONFIG_SSID "CurrentSensorAP"
@@ -48,6 +49,8 @@ char password[32];
 
 //Voltage of power line
 float meassuredVoltage = 115;
+//Calibration factor for your sensor
+float calibrationFac = 0.0947;
 
 //Watts will be summed until this timeout and then sent out to the mqtt server
 unsigned long resetMills = 900000; //15 min
@@ -117,6 +120,37 @@ void updateMeasuredVoltageFromEEPROM() {
   if(tempMeassuredVoltage > 0.00001f) {
     meassuredVoltage = tempMeassuredVoltage;
   }  
+}
+
+
+/**
+ * Save a new calibration factor
+ */
+void updateCalFactor(float cal) {
+  calibrationFac = cal;
+  EEPROM.put(CAL_ADDR, calibrationFac);
+  EEPROM.commit();
+  
+  WebSerial.print("Updating Cal factor to:");
+  WebSerial.println(calibrationFac);
+  Serial.print("Updating Voltage to:");
+  Serial.println(calibrationFac);
+  ESP.restart();
+}
+
+
+/**
+ * Read a new calibration factor the eeprom
+ */
+void readCalFactorEEPROM() {
+  float tempCalibrationFac = 0.0f;
+  EEPROM.get(CAL_ADDR, tempCalibrationFac);
+
+  if(tempCalibrationFac > 0.00001f) {
+    calibrationFac = tempCalibrationFac;
+  }
+  WebSerial.print("Cal factor @Boot:");
+  WebSerial.println(calibrationFac);
 }
 
 
@@ -410,6 +444,7 @@ void setupServer() {
 
   server.on("/values", HTTP_GET, [](AsyncWebServerRequest *request) {
     doc["voltage"] = meassuredVoltage;
+    doc["cal_factor"] = calibrationFac;
     doc["update_s"] = resetMills/1000;
     serializeJson(doc, jsonBuffer);
     request->send(200, "text/json", jsonBuffer);
@@ -422,6 +457,13 @@ void setupServer() {
       String value = pPayload->value();
 
       updateMeasuredVoltage(value.toFloat());
+      updated = true;
+    } 
+
+    if (request->hasParam("cal")) {
+      AsyncWebParameter* pPayload = request->getParam("cal");
+      String value = pPayload->value();
+      updateCalFactor(value.toFloat());
       updated = true;
     } 
     
@@ -533,13 +575,14 @@ void setup() {
   ads.begin();
   ads.setGain(GAIN_FOUR);
 
-  emon1.inputPinReader = ads1115PinReader;
-  emon1.current(-9999, 0.0947);  //empirically messured ; last 0.095; last 0.09475;
-  delay(3000); //delay for a bit to let everything calm down
-
   EEPROM.begin(512);
   updateMeasuredVoltageFromEEPROM();
   updateResetFromEEPROM();
+  readCalFactorEEPROM();
+
+  emon1.inputPinReader = ads1115PinReader;
+  emon1.current(-9999, calibrationFac);
+  delay(3000); //delay for a bit to let everything calm down
   
   tLast = millis();
 }

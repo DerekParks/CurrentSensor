@@ -10,6 +10,7 @@ import os
 app = Flask(__name__, static_url_path='', static_folder='data/')
 
 voltageValue = 116
+cal_factor = 0.0947
 update_mills = 900000
 
 global mqtt_server
@@ -41,7 +42,7 @@ def ws():
 
 @app.route('/values')
 def values():
-    return """{"ApparentPower":0.080034,"WattsSum":61.37917,"MillsSum":53855,"kwh":0.0002, "voltage": %d, "update_s":%d }""" % (voltageValue, update_mills/1000), 200, {'ContentType':'text/json'} 
+    return """{"ApparentPower":0.080034,"WattsSum":61.37917,"MillsSum":53855,"kwh":0.0002, "voltage": %d, "cal_factor":%f, "update_s":%d }""" % (voltageValue, cal_factor, update_mills/1000), 200, {'ContentType':'text/json'} 
 
 @app.route('/mqtt', methods=['POST','GET'])
 def mqtt():
@@ -61,14 +62,18 @@ def mqtt():
 def update_s():
     global update_mills
     global voltageValue
+    global cal_factor
 
     if "voltage" in request.args:
         voltageValue = int(request.args.get("voltage"))
 
+    if "cal" in request.args:
+        cal_factor = float(request.args.get("cal"))
+
     if "update_s" in request.args:
         update_mills = int(request.args.get("update_s")) * 1000
 
-    print(voltageValue, update_mills)
+    print(voltageValue, cal_factor, update_mills)
     return json.dumps({'success':True}), 200, {'ContentType':'text/json'} 
 
 

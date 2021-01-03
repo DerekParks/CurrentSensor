@@ -20,9 +20,12 @@ function create_model() {
         "WattsSum": 0, 
         "MillsSum": 0, 
         "kwh": 0, 
-        "voltage":0, 
-        "voltage_new":'', 
-        "show_voltage": false, 
+        "voltage":0,
+        "voltage_new":'',
+        "show_voltage": false,
+        "cal_factor":0,
+        "cal_factor_new":'',
+        "show_cal_factor": false,
         "update_s":0, 
         "show_update_s": false, 
         "update_s_new":''};
@@ -35,6 +38,10 @@ function save_voltage(voltage_new) {
 
 function save_update_s(update_s) {
     post_data('./update?update_s='+update_s, "");
+}
+
+function save_cal_factor(cal) {
+    post_data('./update?cal='+cal, "");
 }
 
 function save_mqtt(mqtt_server, mqtt_port, client_id, mqtt_user, mqtt_password) {
