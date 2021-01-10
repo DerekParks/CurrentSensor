@@ -30,6 +30,7 @@
 #define VOLTAGE_ADDR 0
 #define RESET_ADDR sizeof(float)
 #define CAL_ADDR (RESET_ADDR + sizeof(unsigned long))
+#define THRES_ADDR (CAL_ADDR + sizeof(float))
 #define WIFI_PATH "/wifi.json"
 #define MQTT_PATH "/mqtt.json"
 #define CONFIG_SSID "CurrentSensorAP"
@@ -51,6 +52,8 @@ char password[32];
 float meassuredVoltage = 115;
 //Calibration factor for your sensor
 float calibrationFac = 0.0947;
+//Apperent power before this will get set to zero
+float zeroThreshold = 5;
 
 //Watts will be summed until this timeout and then sent out to the mqtt server
 unsigned long resetMills = 900000; //15 min
@@ -58,6 +61,7 @@ unsigned long resetMills = 900000; //15 min
 char mqtt_server[17];
 unsigned int mqtt_port = 1883;
 char mqtt_user[15];
+char mqtt_topic[20] = "HOME/POWER";
 char mqtt_password[15];
 char CLIENT_ID[15];
 
@@ -140,7 +144,7 @@ void updateCalFactor(float cal) {
 
 
 /**
- * Read a new calibration factor the eeprom
+ * Read calibration factor the eeprom
  */
 void readCalFactorEEPROM() {
   float tempCalibrationFac = 0.0f;
@@ -151,6 +155,37 @@ void readCalFactorEEPROM() {
   }
   WebSerial.print("Cal factor @Boot:");
   WebSerial.println(calibrationFac);
+}
+
+
+/**
+ * Save a new zero threashold
+ */
+void updateZeroThreshold(float threshold) {
+  zeroThreshold = threshold;
+  EEPROM.put(THRES_ADDR, zeroThreshold);
+  EEPROM.commit();
+  
+  WebSerial.print("Updating zero threashold to:");
+  WebSerial.println(zeroThreshold);
+  Serial.print("Updating zero threashold to:");
+  Serial.println(zeroThreshold);
+  ESP.restart();
+}
+
+
+/**
+ * Read zero threashold the eeprom
+ */
+void readZeroThresholdEEPROM() {
+  float tempZeroThreshold = 0.0f;
+  EEPROM.get(THRES_ADDR, tempZeroThreshold);
+
+  if(tempZeroThreshold > 0.00001f) {
+    zeroThreshold = tempZeroThreshold;
+  }
+  WebSerial.print("Zero threashold @Boot:");
+  WebSerial.println(zeroThreshold);
 }
 
 
@@ -249,6 +284,11 @@ boolean loadMqtt() {
   strcpy(mqtt_user, mqttJson["mqtt_user"]);
   strcpy(mqtt_password, mqttJson["mqtt_password"]);
   strcpy(CLIENT_ID, mqttJson["client_id"]);
+
+  if(mqttJson.containsKey("mqtt_topic")) {
+     strcpy(mqtt_topic, mqttJson["mqtt_topic"]);
+
+  }
   
   configFile.close();
   return true;
@@ -262,6 +302,7 @@ void saveMqtt() {
   StaticJsonDocument<200> mqttJson;
   mqttJson["mqtt_server"] = mqtt_server;
   mqttJson["mqtt_user"] = mqtt_user;
+  mqttJson["mqtt_topic"] = mqtt_topic;
   mqttJson["mqtt_password"] = mqtt_password;
   mqttJson["client_id"] = CLIENT_ID;
   mqttJson["mqtt_port"] = mqtt_port;
@@ -408,6 +449,7 @@ void setupServer() {
     mqttJson["mqtt_server"] = mqtt_server;
     mqttJson["mqtt_port"] = mqtt_port;
     mqttJson["mqtt_user"] = mqtt_user;
+    mqttJson["mqtt_topic"] = mqtt_topic;
     mqttJson["client_id"] = CLIENT_ID;
     
     serializeJson(mqttJson, jsonBuffer);
@@ -445,6 +487,7 @@ void setupServer() {
   server.on("/values", HTTP_GET, [](AsyncWebServerRequest *request) {
     doc["voltage"] = meassuredVoltage;
     doc["cal_factor"] = calibrationFac;
+    doc["zero_thres"] = zeroThreshold;
     doc["update_s"] = resetMills/1000;
     serializeJson(doc, jsonBuffer);
     request->send(200, "text/json", jsonBuffer);
@@ -464,6 +507,13 @@ void setupServer() {
       AsyncWebParameter* pPayload = request->getParam("cal");
       String value = pPayload->value();
       updateCalFactor(value.toFloat());
+      updated = true;
+    } 
+
+    if (request->hasParam("zero_thres")) {
+      AsyncWebParameter* pPayload = request->getParam("zero_thres");
+      String value = pPayload->value();
+      updateZeroThreshold(value.toFloat());
       updated = true;
     } 
     
@@ -516,6 +566,7 @@ void setupServer() {
       strcpy(mqtt_server, data["mqtt_server"]);
       mqtt_port = data["mqtt_port"];
       strcpy(mqtt_user, data["mqtt_user"]);
+      strcpy(mqtt_topic, data["mqtt_topic"]);
       strcpy(mqtt_password, data["mqtt_password"]);
       strcpy(CLIENT_ID, data["client_id"]);
       data.clear();
@@ -606,7 +657,7 @@ void mqttJSON(double apparentPower, double kwh) {
   doc["kwh"] = kwh;
   
   const size_t n = serializeJson(doc, jsonBuffer);
-  client.publish("HOME/POWER", jsonBuffer, n);
+  client.publish(mqtt_topic, jsonBuffer, n);
   WebSerial.println("MQTT Update");
 }
 
@@ -617,7 +668,12 @@ void loop(void) {
   const unsigned long t = millis();
   const unsigned long dMills = t - tLast;
   millsSum += dMills;
-  const double apparentPower = Irms * meassuredVoltage; //Watts
+  double apparentPower = Irms * meassuredVoltage; //Watts
+
+  if(apparentPower < zeroThreshold) {
+    apparentPower = 0;
+  }
+  
   wattsSum += apparentPower;
   measurementCount++;
   const double kwh = (wattsSum / measurementCount / 1000.0) * (millsSum / 3600000.0);

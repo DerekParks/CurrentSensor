@@ -26,6 +26,9 @@ function create_model() {
         "cal_factor":0,
         "cal_factor_new":'',
         "show_cal_factor": false,
+        "zero_thres":0,
+        "zero_thres_new":'',
+        "show_zero_thres": false,
         "update_s":0, 
         "show_update_s": false, 
         "update_s_new":''};
@@ -44,8 +47,12 @@ function save_cal_factor(cal) {
     post_data('./update?cal='+cal, "");
 }
 
-function save_mqtt(mqtt_server, mqtt_port, client_id, mqtt_user, mqtt_password) {
-    const data = { "mqtt_server": mqtt_server, "mqtt_port":mqtt_port, "client_id":client_id, "mqtt_user":mqtt_user, "mqtt_password":mqtt_password };
+function save_zero_thres(zero_thres) {
+    post_data('./update?zero_thres='+zero_thres, "");
+}
+
+function save_mqtt(mqtt_server, mqtt_port, client_id, mqtt_user, mqtt_topic, mqtt_password) {
+    const data = { "mqtt_server": mqtt_server, "mqtt_port":mqtt_port, "client_id":client_id, "mqtt_user":mqtt_user, "mqtt_topic":mqtt_topic, "mqtt_password":mqtt_password };
     post_data('./mqtt', data);
 }
 

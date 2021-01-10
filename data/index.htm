@@ -21,6 +21,7 @@
                     voltage = data.voltage;
                     update_s = data.update_s;
                     cal_factor = data.cal_factor;
+                    zero_thres = data.zero_thres;
       });">        
     <div class="p-3 mx-auto upper">
       <div><a href="/mqtt.html">MQTT</a></div>
@@ -71,6 +72,20 @@
   
             <input type="number" x-show="show_cal_factor" id="cal_factor_input" x-model="cal_factor_new" x-init="cal_factor" />
             <button type="button" x-show="show_cal_factor" @click="show_cal_factor=false; cal_factor=cal_factor_new; save_cal_factor(cal_factor_new);" class="btn btn-primary mr-1" :disabled="(!cal_factor_new || parseFloat(cal_factor_new) == NaN || parseFloat(cal_factor_new)==parseFloat(cal_factor))">
+              Save
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td><label for="zero_thres">Zero Threshold:&nbsp;&nbsp;</label></td>
+          <td><p x-text="zero_thres">&nbsp;&nbsp;</p></td>
+          <td>        
+            <button type="button" x-show="!show_zero_thres" @click="show_zero_thres=true; zero_thres_new=zero_thres;" class="btn btn-primary mr-1">
+              &#9998;
+            </button>
+
+            <input type="number" x-show="show_zero_thres" id="zero_thres_input" x-model="zero_thres_new" x-init="zero_thres" />
+            <button type="button" x-show="show_zero_thres" @click="show_zero_thres=false; zero_thres=zero_thres_new; save_zero_thres(zero_thres_new);" class="btn btn-primary mr-1" :disabled="(!zero_thres_new || parseFloat(zero_thres_new) == NaN || parseFloat(zero_thres_new)==parseFloat(zero_thres))">
               Save
             </button>
           </td>

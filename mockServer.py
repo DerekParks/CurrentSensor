@@ -12,17 +12,14 @@ app = Flask(__name__, static_url_path='', static_folder='data/')
 voltageValue = 116
 cal_factor = 0.0947
 update_mills = 900000
-
-global mqtt_server
-global mqtt_port
-global mqtt_user
-global client_id
+zero_thres = 5.
 
 mqtt_server = "192.168.1.123"
 mqtt_port = 1883
 mqtt_user = "mqttUser"
 client_id = "POWER"
 mqtt_password = ""
+mqtt_topic = "sensor/current"
 
 @app.route('/bootstrap.min.css')
 def serve_static():
@@ -42,20 +39,21 @@ def ws():
 
 @app.route('/values')
 def values():
-    return """{"ApparentPower":0.080034,"WattsSum":61.37917,"MillsSum":53855,"kwh":0.0002, "voltage": %d, "cal_factor":%f, "update_s":%d }""" % (voltageValue, cal_factor, update_mills/1000), 200, {'ContentType':'text/json'} 
+    return """{"ApparentPower":0.080034,"WattsSum":61.37917,"MillsSum":53855,"kwh":0.0002, "voltage": %d, "cal_factor":%f, "zero_thres":%f, "update_s":%d }""" % (voltageValue, cal_factor, zero_thres, update_mills/1000), 200, {'ContentType':'text/json'} 
 
 @app.route('/mqtt', methods=['POST','GET'])
 def mqtt():
     global mqtt_server
     global mqtt_port
     global mqtt_user
+    global mqtt_topic
     global client_id
     if request.method == 'POST':
         content = request.json
         print(content)
         return json.dumps({'success':True}), 200, {'ContentType':'text/json'}
     else:
-        return json.dumps({"mqtt_server":mqtt_server, "mqtt_port":mqtt_port, "mqtt_user":mqtt_user, "client_id":client_id })
+        return json.dumps({"mqtt_server":mqtt_server, "mqtt_port":mqtt_port, "mqtt_user":mqtt_user, "mqtt_topic":mqtt_topic, "client_id":client_id })
 
 
 @app.route('/update', methods=['POST'])
@@ -63,6 +61,7 @@ def update_s():
     global update_mills
     global voltageValue
     global cal_factor
+    global zero_thres
 
     if "voltage" in request.args:
         voltageValue = int(request.args.get("voltage"))
@@ -73,7 +72,11 @@ def update_s():
     if "update_s" in request.args:
         update_mills = int(request.args.get("update_s")) * 1000
 
-    print(voltageValue, cal_factor, update_mills)
+    if "zero_thres" in request.args:
+        zero_thres = float(request.args.get("zero_thres"))
+
+
+    print(voltageValue, cal_factor, zero_thres, update_mills)
     return json.dumps({'success':True}), 200, {'ContentType':'text/json'} 
 
 

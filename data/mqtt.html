@@ -19,13 +19,14 @@
         <h1>MQTT</h1>
     </div>
     <div class=" p-3 mx-auto flex-column"
-        x-data="{ 'mqtt_server':'', 'mqtt_port':0, 'mqtt_user':'', 'client_id':'', 'mqtt_password':'', 'show_change_mqtt': false, 'mqttConn': false, 'mqttState':'Not found'}" 
+        x-data="{ 'mqtt_server':'', 'mqtt_port':0, 'mqtt_user':'', 'mqtt_topic':'', 'client_id':'', 'mqtt_password':'', 'show_change_mqtt': false, 'mqttConn': false, 'mqttState':'Not found'}" 
         x-init="fetch('/mqtt')
                       .then(response => response.json())
                       .then(data => {
                         mqtt_server = data.mqtt_server;
                         mqtt_port = data.mqtt_port;
                         mqtt_user = data.mqtt_user;
+                        mqtt_topic = data.mqtt_topic
                         client_id = data.client_id;
                         mqtt_password = '';
                       });
@@ -62,6 +63,11 @@
                 <td><input type="text" x-show="show_change_mqtt" id="client_id_input" x-model="client_id" /></td>
             </tr>
             <tr>
+                <td><label for="mqtt_topic">MQTT Topic:</label></td>
+                <td> <span x-show="!show_change_mqtt" x-text="mqtt_topic"></span> </td>
+                <td><input type="text" x-show="show_change_mqtt" id="mqtt_topic_input" x-model="mqtt_topic" /></td>
+            </tr>
+            <tr>
                 <td><label for="mqtt_user">MQTT User:</label></td>
                 <td> <span x-show="!show_change_mqtt" x-text="mqtt_user"></span> </td>
                 <td><input type="text" x-show="show_change_mqtt" id="mqtt_user_input" x-model="mqtt_user" /></td>
@@ -73,7 +79,7 @@
             </tr>
             <tr>
                 <td colspan="3"> 
-                    <button type="button" x-show="show_change_mqtt" @click="show_change_mqtt=false; save_mqtt(mqtt_server,mqtt_port,client_id,mqtt_user,mqtt_password);" class="btn btn-primary mr-1" :disabled="(!mqtt_server || !mqtt_port || !client_id || !mqtt_user || !mqtt_password)">
+                    <button type="button" x-show="show_change_mqtt" @click="show_change_mqtt=false; save_mqtt(mqtt_server,mqtt_port,client_id,mqtt_user,mqtt_topic,mqtt_password);" class="btn btn-primary mr-1" :disabled="(!mqtt_server || !mqtt_port || !client_id || !mqtt_user || !mqtt_topic || !mqtt_password)">
                         Save
                     </button>
 
