@@ -31,6 +31,7 @@
 #define RESET_ADDR sizeof(float)
 #define CAL_ADDR (RESET_ADDR + sizeof(unsigned long))
 #define THRES_ADDR (CAL_ADDR + sizeof(float))
+
 #define WIFI_PATH "/wifi.json"
 #define MQTT_PATH "/mqtt.json"
 #define CONFIG_SSID "CurrentSensorAP"
@@ -178,14 +179,11 @@ void updateZeroThreshold(float threshold) {
  * Read zero threashold the eeprom
  */
 void readZeroThresholdEEPROM() {
-  float tempZeroThreshold = 0.0f;
-  EEPROM.get(THRES_ADDR, tempZeroThreshold);
-
-  if(tempZeroThreshold > 0.00001f) {
-    zeroThreshold = tempZeroThreshold;
-  }
+  EEPROM.get(THRES_ADDR, zeroThreshold);
   WebSerial.print("Zero threashold @Boot:");
   WebSerial.println(zeroThreshold);
+  Serial.print("Zero threashold @Boot:");
+  Serial.println(zeroThreshold);
 }
 
 
@@ -627,6 +625,7 @@ void setup() {
   ads.setGain(GAIN_FOUR);
 
   EEPROM.begin(512);
+  readZeroThresholdEEPROM();
   updateMeasuredVoltageFromEEPROM();
   updateResetFromEEPROM();
   readCalFactorEEPROM();
