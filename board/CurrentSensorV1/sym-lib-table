@@ -1,4 +1,6 @@
 (sym_lib_table
   (lib (name ADS1115)(type Legacy)(uri ${KIPRJMOD}/ADS1115.lib)(options "")(descr ""))
   (lib (name JACK_TRS)(type Legacy)(uri ${KIPRJMOD}/JACK_TRS.lib)(options "")(descr ""))
+  (lib (name U254-051T-4BH83-F1S)(type Legacy)(uri ${KIPRJMOD}/U254-051T-4BH83-F1S/U254-051T-4BH83-F1S.lib)(options "")(descr ""))
+  (lib (name sw_spst_sm_dp)(type Legacy)(uri /home/dparks/kicad/ESP_Programmer/sw_spst_sm_dp.lib)(options "")(descr ""))
 )

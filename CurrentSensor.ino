@@ -78,7 +78,7 @@ double wattsSum = 0;
 
 
 int ads1115PinReader(int unused) {
-  return ads.readADC_Differential_0_1();
+  return ads.readADC_Differential_2_3();
 }
 
 
@@ -557,6 +557,8 @@ void setupServer() {
     }
   });
 
+
+  
   AsyncCallbackJsonWebHandler* handlerMqtt = new AsyncCallbackJsonWebHandler("/mqtt", [](AsyncWebServerRequest *request, JsonVariant &json) {
     StaticJsonDocument<200> data;
 
@@ -602,7 +604,7 @@ void setupServer() {
 
 
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(74880);
 
   // initialize filesystem
   SPIFFS.begin();

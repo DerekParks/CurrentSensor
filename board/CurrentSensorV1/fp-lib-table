@@ -1,4 +1,5 @@
 (fp_lib_table
   (lib (name CurrentSensorV1)(type KiCad)(uri /home/dparks/Arduino/CurrentSensor/board/CurrentSensorV1)(options "")(descr ""))
   (lib (name audio35mm)(type KiCad)(uri /home/dparks/kicad/audio35mm)(options "")(descr ""))
+  (lib (name U254-051T-4BH83-F1S)(type KiCad)(uri ${KIPRJMOD}/U254-051T-4BH83-F1S)(options "")(descr ""))
 )
