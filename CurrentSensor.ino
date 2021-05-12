@@ -31,6 +31,7 @@
 #define RESET_ADDR sizeof(float)
 #define CAL_ADDR (RESET_ADDR + sizeof(unsigned long))
 #define THRES_ADDR (CAL_ADDR + sizeof(float))
+
 #define WIFI_PATH "/wifi.json"
 #define MQTT_PATH "/mqtt.json"
 #define CONFIG_SSID "CurrentSensorAP"
@@ -58,10 +59,11 @@ float zeroThreshold = 5;
 //Watts will be summed until this timeout and then sent out to the mqtt server
 unsigned long resetMills = 900000; //15 min
 
+
 char mqtt_server[17];
 unsigned int mqtt_port = 1883;
 char mqtt_user[15];
-char mqtt_topic[20] = "HOME/POWER";
+String mqtt_topic;
 char mqtt_password[15];
 char CLIENT_ID[15];
 
@@ -137,7 +139,7 @@ void updateCalFactor(float cal) {
   
   WebSerial.print("Updating Cal factor to:");
   WebSerial.println(calibrationFac);
-  Serial.print("Updating Voltage to:");
+  Serial.print("Updating cal factor to:");
   Serial.println(calibrationFac);
   ESP.restart();
 }
@@ -178,14 +180,11 @@ void updateZeroThreshold(float threshold) {
  * Read zero threashold the eeprom
  */
 void readZeroThresholdEEPROM() {
-  float tempZeroThreshold = 0.0f;
-  EEPROM.get(THRES_ADDR, tempZeroThreshold);
-
-  if(tempZeroThreshold > 0.00001f) {
-    zeroThreshold = tempZeroThreshold;
-  }
+  EEPROM.get(THRES_ADDR, zeroThreshold);
   WebSerial.print("Zero threashold @Boot:");
   WebSerial.println(zeroThreshold);
+  Serial.print("Zero threashold @Boot:");
+  Serial.println(zeroThreshold);
 }
 
 
@@ -197,7 +196,7 @@ void updateReset(unsigned long newResetSeconds) {
   EEPROM.put(RESET_ADDR, resetMills);
   EEPROM.commit();
   
-  Serial.print("Updating Voltage to:");
+  Serial.print("Updating reset seconds to:");
   Serial.println(resetMills);
 }
 
@@ -284,11 +283,8 @@ boolean loadMqtt() {
   strcpy(mqtt_user, mqttJson["mqtt_user"]);
   strcpy(mqtt_password, mqttJson["mqtt_password"]);
   strcpy(CLIENT_ID, mqttJson["client_id"]);
+  mqtt_topic =  mqttJson["mqtt_topic"].as<String>();
 
-  if(mqttJson.containsKey("mqtt_topic")) {
-     strcpy(mqtt_topic, mqttJson["mqtt_topic"]);
-
-  }
   
   configFile.close();
   return true;
@@ -568,7 +564,8 @@ void setupServer() {
       strcpy(mqtt_server, data["mqtt_server"]);
       mqtt_port = data["mqtt_port"];
       strcpy(mqtt_user, data["mqtt_user"]);
-      strcpy(mqtt_topic, data["mqtt_topic"]);
+      
+      mqtt_topic = data["mqtt_topic"].as<String>();
       strcpy(mqtt_password, data["mqtt_password"]);
       strcpy(CLIENT_ID, data["client_id"]);
       data.clear();
@@ -629,6 +626,7 @@ void setup() {
   ads.setGain(GAIN_FOUR);
 
   EEPROM.begin(512);
+  readZeroThresholdEEPROM();
   updateMeasuredVoltageFromEEPROM();
   updateResetFromEEPROM();
   readCalFactorEEPROM();
@@ -652,15 +650,18 @@ void webOutJSON(double apparentPower, double kwh) {
 }
 
 
-void mqttJSON(double apparentPower, double kwh) {
-  doc["ApparentPower"] = apparentPower;
-  doc["WattsSum"] = wattsSum;
-  doc["MillsSum"] = millsSum;
-  doc["kwh"] = kwh;
+void mqttJSON(double kwh) {
+  StaticJsonDocument<150> dockwh;
+
+  dockwh["kwh"] = kwh;
   
-  const size_t n = serializeJson(doc, jsonBuffer);
-  client.publish(mqtt_topic, jsonBuffer, n);
+  const size_t n = serializeJson(dockwh, jsonBuffer);
+  boolean result = client.publish(mqtt_topic.c_str(), jsonBuffer, n);
   WebSerial.println("MQTT Update");
+  WebSerial.println(mqtt_topic);
+  WebSerial.println(jsonBuffer);
+  WebSerial.println(result);
+  WebSerial.println(n);
 }
 
 
@@ -684,7 +685,7 @@ void loop(void) {
   
   processNet();
   if(millsSum > resetMills) {
-    mqttJSON(apparentPower, kwh);
+    mqttJSON(kwh);
 
     millsSum = 0;
     wattsSum = 0;
