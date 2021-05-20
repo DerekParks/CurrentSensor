@@ -5,4 +5,5 @@
   (lib (name sw_spst_sm_dp)(type Legacy)(uri /home/dparks/kicad/ESP_Programmer/sw_spst_sm_dp.lib)(options "")(descr ""))
   (lib (name esp_header_dp)(type Legacy)(uri /home/dparks/kicad/ESP_Programmer/esp_header_dp.lib)(options "")(descr ""))
   (lib (name usb_b_micro_8_pads)(type Legacy)(uri /home/dparks/kicad/ESP_Programmer/usb_b_micro_8_pads.lib)(options "")(descr ""))
+  (lib (name CurrentSensorV1-rescue)(type Legacy)(uri ${KIPRJMOD}/CurrentSensorV1-rescue.lib)(options "")(descr ""))
 )

@@ -14,7 +14,7 @@ Comment3 ""
 Comment4 ""
 $EndDescr
 $Comp
-L power:GND #PWR0101
+L CurrentSensorV1-rescue:GND-power #PWR0101
 U 1 1 5F67F747
 P 850 4300
 F 0 "#PWR0101" H 850 4050 50  0001 C CNN
@@ -25,7 +25,7 @@ F 3 "" H 850 4300 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3.3V #PWR0102
+L CurrentSensorV1-rescue:+3.3V-power #PWR0102
 U 1 1 5F6850CC
 P 5600 2700
 F 0 "#PWR0102" H 5600 2550 50  0001 C CNN
@@ -36,7 +36,7 @@ F 3 "" H 5600 2700 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:+3.3V #PWR0103
+L CurrentSensorV1-rescue:+3.3V-power #PWR0103
 U 1 1 5F68586F
 P 4600 2750
 F 0 "#PWR0103" H 4600 2600 50  0001 C CNN
@@ -47,7 +47,7 @@ F 3 "" H 4600 2750 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GND #PWR0104
+L CurrentSensorV1-rescue:GND-power #PWR0104
 U 1 1 5F686DB3
 P 5400 2700
 F 0 "#PWR0104" H 5400 2450 50  0001 C CNN
@@ -58,7 +58,7 @@ F 3 "" H 5400 2700 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR0107
+L CurrentSensorV1-rescue:GND-power #PWR0107
 U 1 1 5F69179D
 P 1250 2450
 F 0 "#PWR0107" H 1250 2200 50  0001 C CNN
@@ -69,7 +69,7 @@ F 3 "" H 1250 2450 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3.3V #PWR0108
+L CurrentSensorV1-rescue:+3.3V-power #PWR0108
 U 1 1 5F691A9F
 P 1550 2450
 F 0 "#PWR0108" H 1550 2300 50  0001 C CNN
@@ -80,7 +80,7 @@ F 3 "" H 1550 2450 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:VBUS #PWR0110
+L CurrentSensorV1-rescue:VBUS-power #PWR0110
 U 1 1 5F6B3D4C
 P 1400 3550
 F 0 "#PWR0110" H 1400 3400 50  0001 C CNN
@@ -99,7 +99,7 @@ Wire Wire Line
 Wire Wire Line
 	6900 1000 6900 1200
 $Comp
-L Connector:Conn_01x02_Female J6
+L CurrentSensorV1-rescue:Conn_01x02_Female-Connector J6
 U 1 1 5F6955DB
 P 5200 1700
 F 0 "J6" V 5046 1748 50  0000 L CNN
@@ -115,7 +115,7 @@ Connection ~ 5400 1000
 Wire Wire Line
 	5400 1000 5450 1000
 $Comp
-L power:GND #PWR0109
+L CurrentSensorV1-rescue:GND-power #PWR0109
 U 1 1 5F757012
 P 1250 1100
 F 0 "#PWR0109" H 1250 850 50  0001 C CNN
@@ -126,7 +126,7 @@ F 3 "" H 1250 1100 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:VBUS #PWR0113
+L CurrentSensorV1-rescue:VBUS-power #PWR0113
 U 1 1 5F7576FC
 P 1550 1100
 F 0 "#PWR0113" H 1550 950 50  0001 C CNN
@@ -137,7 +137,7 @@ F 3 "" H 1550 1100 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:GND #PWR0114
+L CurrentSensorV1-rescue:GND-power #PWR0114
 U 1 1 5F75ED44
 P 2500 3150
 F 0 "#PWR0114" H 2500 2900 50  0001 C CNN
@@ -150,7 +150,7 @@ $EndComp
 Wire Wire Line
 	2500 3100 2500 3150
 $Comp
-L power:+3.3V #PWR0111
+L CurrentSensorV1-rescue:+3.3V-power #PWR0111
 U 1 1 5F785201
 P 2700 1000
 F 0 "#PWR0111" H 2700 850 50  0001 C CNN
@@ -161,7 +161,7 @@ F 3 "" H 2700 1000 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:VBUS #PWR0117
+L CurrentSensorV1-rescue:VBUS-power #PWR0117
 U 1 1 5F787AC4
 P 3200 950
 F 0 "#PWR0117" H 3200 800 50  0001 C CNN
@@ -172,7 +172,7 @@ F 3 "" H 3200 950 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L power:GND #PWR0118
+L CurrentSensorV1-rescue:GND-power #PWR0118
 U 1 1 5F79B4F5
 P 2800 2150
 F 0 "#PWR0118" H 2800 1900 50  0001 C CNN
@@ -189,7 +189,7 @@ Wire Wire Line
 Wire Wire Line
 	5400 2700 5400 2600
 $Comp
-L power:VBUS #PWR0119
+L CurrentSensorV1-rescue:VBUS-power #PWR0119
 U 1 1 5F7CF7D9
 P 2350 1700
 F 0 "#PWR0119" H 2350 1550 50  0001 C CNN
@@ -200,7 +200,7 @@ F 3 "" H 2350 1700 50  0001 C CNN
 	0    -1   -1   0   
 $EndComp
 $Comp
-L power:+3.3V #PWR0120
+L CurrentSensorV1-rescue:+3.3V-power #PWR0120
 U 1 1 5F7CFF2C
 P 3250 1700
 F 0 "#PWR0120" H 3250 1550 50  0001 C CNN
@@ -217,7 +217,7 @@ Wire Wire Line
 Wire Wire Line
 	5700 3000 5700 2600
 $Comp
-L Connector:TestPoint TP1
+L CurrentSensorV1-rescue:TestPoint-Connector TP1
 U 1 1 5F834784
 P 3200 800
 F 0 "TP1" H 3258 918 50  0000 L CNN
@@ -228,7 +228,7 @@ F 3 "~" H 3400 800 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3.3V #PWR0115
+L CurrentSensorV1-rescue:+3.3V-power #PWR0115
 U 1 1 6037FDE9
 P 6150 2350
 F 0 "#PWR0115" H 6150 2200 50  0001 C CNN
@@ -239,7 +239,7 @@ F 3 "" H 6150 2350 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:R R6
+L CurrentSensorV1-rescue:R-Device R6
 U 1 1 6038053A
 P 6150 2600
 F 0 "R6" H 6000 2700 50  0000 L CNN
@@ -266,7 +266,7 @@ F 5 "0;0;270" H 2150 4100 50  0001 C CNN "JLCPCB_CORRECTION"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C5
+L CurrentSensorV1-rescue:C-Device C5
 U 1 1 6037AC9B
 P 2750 4000
 F 0 "C5" H 2865 4046 50  0000 L CNN
@@ -278,7 +278,7 @@ F 4 "C52923" H 2750 4000 50  0001 C CNN "LCSC"
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:+3.3V #PWR0116
+L CurrentSensorV1-rescue:+3.3V-power #PWR0116
 U 1 1 6037D07E
 P 3000 4150
 F 0 "#PWR0116" H 3000 4000 50  0001 C CNN
@@ -289,7 +289,7 @@ F 3 "" H 3000 4150 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:GND #PWR0121
+L CurrentSensorV1-rescue:GND-power #PWR0121
 U 1 1 6038225E
 P 2750 3650
 F 0 "#PWR0121" H 2750 3400 50  0001 C CNN
@@ -300,7 +300,7 @@ F 3 "" H 2750 3650 50  0001 C CNN
 	-1   0    0    1   
 $EndComp
 $Comp
-L Device:R R2
+L CurrentSensorV1-rescue:R-Device R2
 U 1 1 603858DC
 P 3050 4450
 F 0 "R2" V 3000 4650 50  0000 C CNN
@@ -312,7 +312,7 @@ F 4 "C23192" V 3050 4450 50  0001 C CNN "LCSC"
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:R R1
+L CurrentSensorV1-rescue:R-Device R1
 U 1 1 60385015
 P 3050 4350
 F 0 "R1" V 3000 4550 50  0000 C CNN
@@ -324,7 +324,7 @@ F 4 "C23192" V 3050 4350 50  0001 C CNN "LCSC"
 	0    1    1    0   
 $EndComp
 $Comp
-L power:+3.3V #PWR0122
+L CurrentSensorV1-rescue:+3.3V-power #PWR0122
 U 1 1 6039C899
 P 3350 4350
 F 0 "#PWR0122" H 3350 4200 50  0001 C CNN
@@ -335,7 +335,7 @@ F 3 "" H 3350 4350 50  0001 C CNN
 	0    1    1    0   
 $EndComp
 $Comp
-L power:+3.3V #PWR0123
+L CurrentSensorV1-rescue:+3.3V-power #PWR0123
 U 1 1 6039D0F2
 P 3350 4450
 F 0 "#PWR0123" H 3350 4300 50  0001 C CNN
@@ -350,7 +350,7 @@ Wire Wire Line
 Wire Wire Line
 	3200 4450 3350 4450
 $Comp
-L power:GND #PWR0124
+L CurrentSensorV1-rescue:GND-power #PWR0124
 U 1 1 603A27AC
 P 2800 4750
 F 0 "#PWR0124" H 2800 4500 50  0001 C CNN
@@ -375,7 +375,7 @@ ADDR
 Text Label 2650 4650 0    50   ~ 0
 ALERT
 $Comp
-L Device:R R3
+L CurrentSensorV1-rescue:R-Device R3
 U 1 1 603CACB2
 P 3050 4650
 F 0 "R3" V 3000 4850 50  0000 C CNN
@@ -391,7 +391,7 @@ Wire Wire Line
 Wire Wire Line
 	2600 4650 2900 4650
 $Comp
-L Connector:Conn_01x02_Female J7
+L CurrentSensorV1-rescue:Conn_01x02_Female-Connector J7
 U 1 1 5F694DC9
 P 6900 1400
 F 0 "J7" V 6746 1448 50  0000 L CNN
@@ -435,7 +435,7 @@ Wire Wire Line
 	6900 1000 7000 1000
 Connection ~ 6900 1000
 $Comp
-L power:GND #PWR0125
+L CurrentSensorV1-rescue:GND-power #PWR0125
 U 1 1 604346D4
 P 3000 4550
 F 0 "#PWR0125" H 3000 4300 50  0001 C CNN
@@ -459,7 +459,7 @@ Wire Wire Line
 Wire Wire Line
 	3200 800  3200 950 
 $Comp
-L Connector:TestPoint TP2
+L CurrentSensorV1-rescue:TestPoint-Connector TP2
 U 1 1 6047E08F
 P 2700 800
 F 0 "TP2" H 2758 918 50  0000 L CNN
@@ -472,7 +472,7 @@ $EndComp
 Wire Wire Line
 	2700 800  2700 1000
 $Comp
-L power:GND #PWR0126
+L CurrentSensorV1-rescue:GND-power #PWR0126
 U 1 1 604AA4F9
 P 3350 4650
 F 0 "#PWR0126" H 3350 4400 50  0001 C CNN
@@ -487,7 +487,7 @@ RST
 Text GLabel 4850 2900 2    50   Input ~ 0
 RST
 $Comp
-L power:+3.3V #PWR0128
+L CurrentSensorV1-rescue:+3.3V-power #PWR0128
 U 1 1 6057E04E
 P 4800 3000
 F 0 "#PWR0128" H 4800 2850 50  0001 C CNN
@@ -512,7 +512,7 @@ Wire Wire Line
 Wire Wire Line
 	4500 2750 4600 2750
 $Comp
-L Device:CP C4
+L CurrentSensorV1-rescue:CP-Device C4
 U 1 1 6060DF74
 P 1400 2200
 F 0 "C4" V 1250 2200 50  0000 C CNN
@@ -525,7 +525,7 @@ F 5 "0;0;180" V 1400 2200 50  0001 C CNN "JLCPCB_CORRECTION"
 	0    1    1    0   
 $EndComp
 $Comp
-L Regulator_Linear:AMS1117-3.3 U3
+L CurrentSensorV1-rescue:AMS1117-3.3-Regulator_Linear U3
 U 1 1 60649B4D
 P 2800 1700
 F 0 "U3" H 2800 1942 50  0000 C CNN
@@ -538,7 +538,7 @@ F 5 "0;0;180" H 2800 1700 50  0001 C CNN "JLCPCB_CORRECTION"
 	1    0    0    -1  
 $EndComp
 $Comp
-L Device:C C3
+L CurrentSensorV1-rescue:C-Device C3
 U 1 1 60673198
 P 1400 1900
 F 0 "C3" V 1148 1900 50  0000 C CNN
@@ -550,7 +550,7 @@ F 4 "C52923" H 1400 1900 50  0001 C CNN "LCSC"
 	0    1    1    0   
 $EndComp
 $Comp
-L Device:C C1
+L CurrentSensorV1-rescue:C-Device C1
 U 1 1 606769FE
 P 1400 850
 F 0 "C1" V 1148 850 50  0000 C CNN
@@ -617,7 +617,7 @@ Wire Wire Line
 Wire Wire Line
 	4550 3100 4500 3100
 $Comp
-L ESP8266:ESP-01v090 U2
+L CurrentSensorV1-rescue:ESP-01v090-ESP8266 U2
 U 1 1 5F67B525
 P 3550 2950
 F 0 "U2" H 3550 2435 50  0000 C CNN
@@ -628,7 +628,7 @@ F 3 "http://l0l.org.uk/2014/12/esp8266-modules-hardware-guide-gotta-catch-em-all
 	-1   0    0    1   
 $EndComp
 $Comp
-L Mechanical:MountingHole_Pad H1
+L CurrentSensorV1-rescue:MountingHole_Pad-Mechanical H1
 U 1 1 607BDB4C
 P 5000 3500
 F 0 "H1" H 5100 3549 50  0000 L CNN
@@ -639,7 +639,7 @@ F 3 "~" H 5000 3500 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR0127
+L CurrentSensorV1-rescue:GND-power #PWR0127
 U 1 1 607BF8E0
 P 5000 3750
 F 0 "#PWR0127" H 5000 3500 50  0001 C CNN
@@ -652,7 +652,7 @@ $EndComp
 Wire Wire Line
 	5000 3600 5000 3750
 $Comp
-L Mechanical:MountingHole_Pad H2
+L CurrentSensorV1-rescue:MountingHole_Pad-Mechanical H2
 U 1 1 607C4343
 P 5200 3750
 F 0 "H2" H 5300 3799 50  0000 L CNN
@@ -663,7 +663,7 @@ F 3 "~" H 5200 3750 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR0129
+L CurrentSensorV1-rescue:GND-power #PWR0129
 U 1 1 607C4349
 P 5200 4000
 F 0 "#PWR0129" H 5200 3750 50  0001 C CNN
@@ -676,7 +676,7 @@ $EndComp
 Wire Wire Line
 	5200 3850 5200 4000
 $Comp
-L Mechanical:MountingHole_Pad H3
+L CurrentSensorV1-rescue:MountingHole_Pad-Mechanical H3
 U 1 1 607C71AC
 P 5400 4000
 F 0 "H3" H 5500 4049 50  0000 L CNN
@@ -687,7 +687,7 @@ F 3 "~" H 5400 4000 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR0130
+L CurrentSensorV1-rescue:GND-power #PWR0130
 U 1 1 607C71B2
 P 5400 4250
 F 0 "#PWR0130" H 5400 4000 50  0001 C CNN
@@ -700,7 +700,7 @@ $EndComp
 Wire Wire Line
 	5400 4100 5400 4250
 $Comp
-L Mechanical:MountingHole_Pad H4
+L CurrentSensorV1-rescue:MountingHole_Pad-Mechanical H4
 U 1 1 607CA084
 P 5550 4250
 F 0 "H4" H 5650 4299 50  0000 L CNN
@@ -711,7 +711,7 @@ F 3 "~" H 5550 4250 50  0001 C CNN
 	1    0    0    -1  
 $EndComp
 $Comp
-L power:GND #PWR0131
+L CurrentSensorV1-rescue:GND-power #PWR0131
 U 1 1 607CA08A
 P 5550 4500
 F 0 "#PWR0131" H 5550 4250 50  0001 C CNN
@@ -737,7 +737,7 @@ Wire Wire Line
 Wire Wire Line
 	1550 850  1550 1100
 $Comp
-L avr-arduino:ESP_Header_DP J2
+L CurrentSensorV1-rescue:ESP_Header_DP-avr-arduino J2
 U 1 1 60A3E8A5
 P 5700 2400
 F 0 "J2" V 5350 2500 50  0000 L CNN
@@ -778,7 +778,7 @@ Wire Wire Line
 Wire Wire Line
 	2750 3650 2750 3850
 $Comp
-L usb_b_micro_8_pads:USB_B_Micro U9
+L CurrentSensorV1-rescue:USB_B_Micro-usb_b_micro_8_pads U9
 U 1 1 609BBE83
 P 900 3750
 F 0 "U9" H 928 4217 50  0000 C CNN
